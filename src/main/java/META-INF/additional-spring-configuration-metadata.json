@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "pricesheet.mapping.prefix",
+    "type": "java.lang.String",
+    "description": "A description for 'pricesheet.mapping.prefix'"
+  },
+  {
+    "name": "app.request.origin",
+    "type": "java.lang.String",
+    "description": "A description for 'app.request.origin'"
+  }
+]}

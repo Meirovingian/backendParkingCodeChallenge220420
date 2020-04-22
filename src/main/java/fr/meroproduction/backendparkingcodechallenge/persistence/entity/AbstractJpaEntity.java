@@ -2,6 +2,7 @@ package fr.meroproduction.backendparkingcodechallenge.persistence.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -19,10 +20,13 @@ public abstract class AbstractJpaEntity {
     @Version
     private Long version;
 
+    @Column(name = "created_on", nullable = false, insertable = true, updatable = false)
     private Date createdOn;
 
+    @Column(name = "updated_on", updatable = true)
     private Date updatedOn;
 
+    @Column(name = "activated", nullable = false)
     private Boolean activated;
 
     public Long getId() {
