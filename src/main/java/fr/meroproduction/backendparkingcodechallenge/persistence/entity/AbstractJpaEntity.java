@@ -60,6 +60,7 @@ public abstract class AbstractJpaEntity {
     @PrePersist
     private void onPersist() {
 	this.createdOn = new Date();
+	this.activated = true;
     }
 
     @PreUpdate

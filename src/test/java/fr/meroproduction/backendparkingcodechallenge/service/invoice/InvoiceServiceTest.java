@@ -46,8 +46,7 @@ public class InvoiceServiceTest {
 	vehicle.setVehicleType(VehicleType.MOTORCYCLE);
 	vehicle.setFuelType(FuelType.GASOLINE);
 
-	BigDecimal actual = invoiceServiceToTest.determinePrice(invoiceServiceToTest.calculateInvoice(), priceSheet,
-		vehicle);
+	BigDecimal actual = invoiceServiceToTest.determinePrice(invoiceServiceToTest.calculateInvoice(), vehicle);
 	BigDecimal expected = BigDecimal.valueOf(5.5d).setScale(2, RoundingMode.UP);
 	assertNotNull(actual);
 	assertEquals(expected, actual);
@@ -61,8 +60,7 @@ public class InvoiceServiceTest {
 	vehicle.setVehicleType(VehicleType.CAR);
 	vehicle.setFuelType(FuelType.GASOLINE);
 
-	BigDecimal actual = invoiceServiceToTest.determinePrice(invoiceServiceToTest.calculateInvoice2(), priceSheet,
-		vehicle);
+	BigDecimal actual = invoiceServiceToTest.determinePrice(invoiceServiceToTest.calculateInvoice2(), vehicle);
 	BigDecimal expected = BigDecimal.valueOf(2d).setScale(2, RoundingMode.UP);
 	assertNotNull(actual);
 	assertEquals(expected, actual);
@@ -76,8 +74,7 @@ public class InvoiceServiceTest {
 	vehicle.setVehicleType(VehicleType.CAR);
 	vehicle.setFuelType(FuelType.LGP);
 
-	BigDecimal actual = invoiceServiceToTest.determinePrice(invoiceServiceToTest.calculateInvoice3(), priceSheet,
-		vehicle);
+	BigDecimal actual = invoiceServiceToTest.determinePrice(invoiceServiceToTest.calculateInvoice3(), vehicle);
 	BigDecimal expected = BigDecimal.valueOf(18d).setScale(2, RoundingMode.UP);
 	assertNotNull(actual);
 	assertEquals(expected, actual);
@@ -96,7 +93,7 @@ public class InvoiceServiceTest {
 	final ZonedDateTime nowAndHere = now.atZone(ZoneId.of("Europe/Paris")).plusHours(14).plusMinutes(42);
 	final long duration = Math.abs(ChronoUnit.MINUTES.between(now, nowAndHere));
 
-	BigDecimal actual = invoiceServiceToTest.determinePrice(duration, priceSheet, vehicle);
+	BigDecimal actual = invoiceServiceToTest.determinePrice(duration, vehicle);
 	BigDecimal expected = BigDecimal.valueOf(21d).setScale(2, RoundingMode.UP);
 	assertNotNull(actual);
 	assertEquals(expected, actual);
@@ -115,7 +112,7 @@ public class InvoiceServiceTest {
 	final ZonedDateTime nowAndHere = now.atZone(ZoneId.of("Europe/Paris")).plusHours(6).plusMinutes(59);
 	final long duration = Math.abs(ChronoUnit.MINUTES.between(now, nowAndHere));
 
-	BigDecimal actual = invoiceServiceToTest.determinePrice(duration, priceSheet, vehicle);
+	BigDecimal actual = invoiceServiceToTest.determinePrice(duration, vehicle);
 	BigDecimal expected = BigDecimal.valueOf(16.5d).setScale(2, RoundingMode.UP);
 	assertNotNull(actual);
 	assertEquals(expected, actual);

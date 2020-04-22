@@ -6,20 +6,36 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.meroproduction.backendparkingcodechallenge.controller.dto.pricesheet.PriceSheetDTO;
+import fr.meroproduction.backendparkingcodechallenge.persistence.entity.invoice.Invoice;
+import fr.meroproduction.backendparkingcodechallenge.persistence.entity.pricesheet.PriceSheet;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.vehicle.FuelType;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.vehicle.Vehicle;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.vehicle.VehicleType;
+import fr.meroproduction.backendparkingcodechallenge.persistence.repository.invoice.InvoiceRepository;
 
 @Service
 public class InvoiceService {
 
     @Autowired
     private PriceSheetService priceSheetService;
+
+    @Autowired
+    private InvoiceRepository invoiceRepository;
+
+    public Invoice createInvoice(Invoice invoice) {
+	return invoiceRepository.save(invoice);
+    }
+
+    public long establishDuration(Date outgoingDate, Date incomingDate) {
+	ZonedDateTime outgoingTime = ZonedDateTime.ofInstant(outgoingDate.toInstant(), ZoneId.systemDefault());
+	ZonedDateTime incomingTime = ZonedDateTime.ofInstant(incomingDate.toInstant(), ZoneId.systemDefault());
+	return Math.abs(ChronoUnit.MINUTES.between(outgoingTime, incomingTime));
+    }
 
     public long calculateInvoice() {
 	ZonedDateTime nowAndHere = now();
@@ -48,9 +64,9 @@ public class InvoiceService {
     }
 
     public BigDecimal determinePrice(final long fullTime, final Vehicle vehicle) {
-	PriceSheetDTO lastActivatedPriceSheet = priceSheetService.getLastActivatedPriceSheet();
+	PriceSheet lastActivatedPriceSheet = priceSheetService.getLastActivatedPriceSheet();
 	BigDecimal roundedTotal = null;
-	if (fullTime > 0 && lastActivatedPriceSheet != null) {
+	if (fullTime >= 0 && lastActivatedPriceSheet != null) {
 	    final long psFirstBracketMinuteTime = lastActivatedPriceSheet.getPsFirstBracketMinuteTime();
 	    final long psFirstBracketMinuteTimeReferential = lastActivatedPriceSheet
 		    .getPsFirstBracketMinuteTimeReferential();
@@ -153,4 +169,5 @@ public class InvoiceService {
     public PriceSheetService getPriceSheetService() {
 	return priceSheetService;
     }
+
 }
