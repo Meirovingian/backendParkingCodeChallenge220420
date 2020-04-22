@@ -10,7 +10,7 @@ import java.time.temporal.ChronoUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.meroproduction.backendparkingcodechallenge.persistence.entity.pricesheet.PriceSheet;
+import fr.meroproduction.backendparkingcodechallenge.controller.dto.pricesheet.PriceSheetDTO;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.vehicle.FuelType;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.vehicle.Vehicle;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.vehicle.VehicleType;
@@ -47,17 +47,20 @@ public class InvoiceService {
 	return now.atZone(ZoneId.of("Europe/Paris"));
     }
 
-    public BigDecimal determinePrice(final long fullTime, final PriceSheet priceSheet, final Vehicle vehicle) {
+    public BigDecimal determinePrice(final long fullTime, final Vehicle vehicle) {
+	PriceSheetDTO lastActivatedPriceSheet = priceSheetService.getLastActivatedPriceSheet();
 	BigDecimal roundedTotal = null;
-	if (fullTime > 0 && priceSheet != null) {
-	    final Long psFirstBracketMinuteTime = priceSheet.getPsFirstBracketMinuteTime();
-	    final Long psFirstBracketMinuteTimeReferential = priceSheet.getPsFirstBracketMinuteTimeReferential();
-	    final BigDecimal psFirstBracketPrice = priceSheet.getPsFirstBracketPrice();
+	if (fullTime > 0 && lastActivatedPriceSheet != null) {
+	    final long psFirstBracketMinuteTime = lastActivatedPriceSheet.getPsFirstBracketMinuteTime();
+	    final long psFirstBracketMinuteTimeReferential = lastActivatedPriceSheet
+		    .getPsFirstBracketMinuteTimeReferential();
+	    final BigDecimal psFirstBracketPrice = lastActivatedPriceSheet.getPsFirstBracketPrice();
 
-	    final Long psSecondBracketMinuteTimeReferential = priceSheet.getPsSecondBracketMinuteTimeReferential();
-	    final BigDecimal psSecondBracketPrice = priceSheet.getPsSecondBracketPrice();
+	    final long psSecondBracketMinuteTimeReferential = lastActivatedPriceSheet
+		    .getPsSecondBracketMinuteTimeReferential();
+	    final BigDecimal psSecondBracketPrice = lastActivatedPriceSheet.getPsSecondBracketPrice();
 
-	    final Long psFreeStartingMinuteTime = priceSheet.getPsFreeStartingMinuteTime();
+	    final long psFreeStartingMinuteTime = lastActivatedPriceSheet.getPsFreeStartingMinuteTime();
 
 	    final long realSecondBracketTime = fullTime - psFirstBracketMinuteTime;
 	    final long realFirstBracketTime = realSecondBracketTime > 0
@@ -77,11 +80,11 @@ public class InvoiceService {
 	    if (vehicle != null) {
 		final FuelType fuelType = vehicle.getFuelType();
 		if (fuelType != null && fuelType.equals(FuelType.LGP)) {
-		    calculatedTotal = calculatedTotal.multiply(priceSheet.getPsLgpCoefficient());
+		    calculatedTotal = calculatedTotal.multiply(lastActivatedPriceSheet.getPsLgpCoefficient());
 		}
 		final VehicleType vehicleType = vehicle.getVehicleType();
 		if (vehicleType != null && vehicleType.equals(VehicleType.MOTORCYCLE)) {
-		    calculatedTotal = calculatedTotal.multiply(priceSheet.getPsMotorcycleCoefficient());
+		    calculatedTotal = calculatedTotal.multiply(lastActivatedPriceSheet.getPsMotorcycleCoefficient());
 		}
 	    }
 
