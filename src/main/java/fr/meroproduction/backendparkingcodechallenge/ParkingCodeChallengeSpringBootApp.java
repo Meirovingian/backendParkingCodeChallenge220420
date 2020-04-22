@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BackendparkingcodechallengeApplication {
+public class ParkingCodeChallengeSpringBootApp {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BackendparkingcodechallengeApplication.class, args);
+		SpringApplication.run(ParkingCodeChallengeSpringBootApp.class, args);
 	}
 
 }
