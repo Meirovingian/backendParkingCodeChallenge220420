@@ -82,7 +82,7 @@ public class InOutService {
 	    Invoice invoice = new Invoice();
 	    invoice.setInOut(inOut);
 	    invoice.setPriceSheet(priceSheetService.getLastActivatedPriceSheet());
-	    Invoice createdInvoice = invoiceService.createInvoice(invoice);
+	    invoiceService.createInvoice(invoice);
 	    return true;
 	}
 	return false;
