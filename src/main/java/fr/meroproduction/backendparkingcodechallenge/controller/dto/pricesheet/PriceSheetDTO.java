@@ -5,23 +5,13 @@ import java.math.BigDecimal;
 
 public class PriceSheetDTO implements Serializable {
 
-    private long psFreeStartingMinuteTime;
-
-    private long psFirstBracketMinuteTime;
-
-    private long psFirstBracketMinuteTimeReferential;
-
-    private BigDecimal psFirstBracketPrice;
-
-    private long psSecondBracketMinuteTimeReferential;
-
-    private BigDecimal psSecondBracketPrice;
-
-    private BigDecimal psMotorcycleCoefficient;
-
-    private BigDecimal psLgpCoefficient;
-
-    private boolean psPrintIfNull;
+    private long id;
+    private String freeStartingTime;
+    private String firstChargedPeriod;
+    private String firstAppliedPrice;
+    private BigDecimal motorcycleCoefficient;
+    private BigDecimal lgpCoefficient;
+    private boolean systematicPrint;
 
     private static final long serialVersionUID = -633201883590850051L;
 
@@ -29,80 +19,60 @@ public class PriceSheetDTO implements Serializable {
 	super();
     }
 
-    public long getPsFreeStartingMinuteTime() {
-	return psFreeStartingMinuteTime;
+    public long getId() {
+	return id;
     }
 
-    public void setPsFreeStartingMinuteTime(long psFreeStartingMinuteTime) {
-	this.psFreeStartingMinuteTime = psFreeStartingMinuteTime;
+    public void setId(long id) {
+	this.id = id;
     }
 
-    public long getPsFirstBracketMinuteTime() {
-	return psFirstBracketMinuteTime;
+    public String getFreeStartingTime() {
+	return freeStartingTime;
     }
 
-    public void setPsFirstBracketMinuteTime(long psFirstBracketMinuteTime) {
-	this.psFirstBracketMinuteTime = psFirstBracketMinuteTime;
+    public void setFreeStartingTime(String freeStartingTime) {
+	this.freeStartingTime = freeStartingTime;
     }
 
-    public long getPsFirstBracketMinuteTimeReferential() {
-	return psFirstBracketMinuteTimeReferential;
+    public String getFirstChargedPeriod() {
+	return firstChargedPeriod;
     }
 
-    public void setPsFirstBracketMinuteTimeReferential(long psFirstBracketMinuteTimeReferential) {
-	this.psFirstBracketMinuteTimeReferential = psFirstBracketMinuteTimeReferential;
+    public void setFirstChargedPeriod(String firstChargedPeriod) {
+	this.firstChargedPeriod = firstChargedPeriod;
     }
 
-    public BigDecimal getPsFirstBracketPrice() {
-	return psFirstBracketPrice;
+    public String getFirstAppliedPrice() {
+	return firstAppliedPrice;
     }
 
-    public void setPsFirstBracketPrice(BigDecimal psFirstBracketPrice) {
-	this.psFirstBracketPrice = psFirstBracketPrice;
+    public void setFirstAppliedPrice(String firstAppliedPrice) {
+	this.firstAppliedPrice = firstAppliedPrice;
     }
 
-    public long getPsSecondBracketMinuteTimeReferential() {
-	return psSecondBracketMinuteTimeReferential;
+    public BigDecimal getMotorcycleCoefficient() {
+	return motorcycleCoefficient;
     }
 
-    public void setPsSecondBracketMinuteTimeReferential(long psSecondBracketMinuteTimeReferential) {
-	this.psSecondBracketMinuteTimeReferential = psSecondBracketMinuteTimeReferential;
+    public void setMotorcycleCoefficient(BigDecimal motorcycleCoefficient) {
+	this.motorcycleCoefficient = motorcycleCoefficient;
     }
 
-    public BigDecimal getPsSecondBracketPrice() {
-	return psSecondBracketPrice;
+    public BigDecimal getLgpCoefficient() {
+	return lgpCoefficient;
     }
 
-    public void setPsSecondBracketPrice(BigDecimal psSecondBracketPrice) {
-	this.psSecondBracketPrice = psSecondBracketPrice;
+    public void setLgpCoefficient(BigDecimal lgpCoefficient) {
+	this.lgpCoefficient = lgpCoefficient;
     }
 
-    public BigDecimal getPsMotorcycleCoefficient() {
-	return psMotorcycleCoefficient;
+    public boolean isSystematicPrint() {
+	return systematicPrint;
     }
 
-    public void setPsMotorcycleCoefficient(BigDecimal psMotorcycleCoefficient) {
-	this.psMotorcycleCoefficient = psMotorcycleCoefficient;
-    }
-
-    public BigDecimal getPsLgpCoefficient() {
-	return psLgpCoefficient;
-    }
-
-    public void setPsLgpCoefficient(BigDecimal psLgpCoefficient) {
-	this.psLgpCoefficient = psLgpCoefficient;
-    }
-
-    public boolean isPsPrintIfNull() {
-	return psPrintIfNull;
-    }
-
-    public void setPsPrintIfNull(boolean psPrintIfNull) {
-	this.psPrintIfNull = psPrintIfNull;
-    }
-
-    public static long getSerialversionuid() {
-	return serialVersionUID;
+    public void setSystematicPrint(boolean systematicPrint) {
+	this.systematicPrint = systematicPrint;
     }
 
 }

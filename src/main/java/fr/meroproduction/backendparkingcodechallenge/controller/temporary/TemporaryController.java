@@ -22,7 +22,7 @@ import fr.meroproduction.backendparkingcodechallenge.service.user.UserService;
 import fr.meroproduction.backendparkingcodechallenge.service.vehicle.VehicleService;
 
 @RestController
-@RequestMapping(path = "${temporary.mapping.prefix}")
+@RequestMapping(path = "/temp")
 @CrossOrigin(origins = "${app.request.origin}")
 public class TemporaryController {
 

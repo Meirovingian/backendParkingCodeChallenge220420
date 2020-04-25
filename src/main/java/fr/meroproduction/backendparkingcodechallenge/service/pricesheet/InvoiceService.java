@@ -152,18 +152,26 @@ public class InvoiceService {
 	return realSecondBracketPrice;
     }
 
-    private long modulo(long realSecondBracketTime, final Long modulo) {
-	return realSecondBracketTime % modulo;
+    /**
+     * Function applying dividend modulo divisor. Modulo 0 is undefined so we return
+     * 0
+     * 
+     * @param dividend
+     * @param divisor
+     * @return
+     */
+    private long modulo(long dividend, final Long divisor) {
+	return divisor > 0L ? dividend % divisor : 0L;
     }
 
     /**
      * 
      * @param dividend
-     * @param divider
+     * @param divisor
      * @return
      */
-    private long divide(final long dividend, final long divider) {
-	return divider > 0L ? dividend / divider : 0L;
+    private long divide(final long dividend, final long divisor) {
+	return divisor > 0L ? dividend / divisor : 0L;
     }
 
     public PriceSheetService getPriceSheetService() {
