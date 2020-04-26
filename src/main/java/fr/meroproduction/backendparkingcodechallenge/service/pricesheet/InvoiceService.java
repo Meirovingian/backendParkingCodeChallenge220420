@@ -67,16 +67,16 @@ public class InvoiceService {
 	PriceSheet lastActivatedPriceSheet = priceSheetService.getLastActivatedPriceSheet();
 	BigDecimal roundedTotal = null;
 	if (fullTime >= 0 && lastActivatedPriceSheet != null) {
-	    final long psFirstBracketMinuteTime = lastActivatedPriceSheet.getPsFirstBracketMinuteTime();
-	    final long psFirstBracketMinuteTimeReferential = lastActivatedPriceSheet
-		    .getPsFirstBracketMinuteTimeReferential();
+	    final long psFirstBracketMinuteTime = lastActivatedPriceSheet.getPsFirstBracketTime().getMinuteDuration();
+	    final long psFirstBracketMinuteTimeReferential = lastActivatedPriceSheet.getPsFirstBracketTimeRef()
+		    .getMinuteDuration();
 	    final BigDecimal psFirstBracketPrice = lastActivatedPriceSheet.getPsFirstBracketPrice();
 
-	    final long psSecondBracketMinuteTimeReferential = lastActivatedPriceSheet
-		    .getPsSecondBracketMinuteTimeReferential();
+	    final long psSecondBracketMinuteTimeReferential = lastActivatedPriceSheet.getPsSecondBracketTimeRef()
+		    .getMinuteDuration();
 	    final BigDecimal psSecondBracketPrice = lastActivatedPriceSheet.getPsSecondBracketPrice();
 
-	    final long psFreeStartingMinuteTime = lastActivatedPriceSheet.getPsFreeStartingMinuteTime();
+	    final long psFreeStartingMinuteTime = lastActivatedPriceSheet.getPsFreeTime().getMinuteDuration();
 
 	    final long realSecondBracketTime = fullTime - psFirstBracketMinuteTime;
 	    final long realFirstBracketTime = realSecondBracketTime > 0

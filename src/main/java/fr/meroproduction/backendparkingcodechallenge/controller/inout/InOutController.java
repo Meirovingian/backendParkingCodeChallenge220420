@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.meroproduction.backendparkingcodechallenge.service.inout.InOutService;
 
 @RestController
-@RequestMapping(path = "${inout.mapping.prefix}")
+@RequestMapping(path = "/inout")
 @CrossOrigin(origins = "${app.request.origin}")
 public class InOutController {
 

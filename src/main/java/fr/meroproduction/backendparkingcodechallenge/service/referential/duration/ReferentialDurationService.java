@@ -2,6 +2,9 @@ package fr.meroproduction.backendparkingcodechallenge.service.referential.durati
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,7 @@ public class ReferentialDurationService {
 	List<DurationRefDTO> durationRefList = new ArrayList<>();
 	durationRefList.add(new DurationRefDTO(-1L, null, "", "", true));
 	if (!CollectionUtils.isEmpty(entityList)) {
+	    // TODO Créer un mapper
 	    durationRefList
 		    .addAll(entityList.stream().map(entity -> mapEntityToDTO(entity)).collect(Collectors.toList()));
 	    return durationRefList;
@@ -30,9 +34,9 @@ public class ReferentialDurationService {
 	return durationRefList;
     }
 
-    public DurationRefDTO getSpecificDuration(Long duration) {
-	ReferentialDuration findByDuration = referentialDurationRepository.findByDuration(duration);
-	return mapEntityToDTO(findByDuration);
+    public Map<Long, ReferentialDuration> findByIdentifierSet(final Set<Long> identifierSet) {
+	return referentialDurationRepository.findAllById(identifierSet).stream()
+		.collect(Collectors.toMap(ReferentialDuration::getId, Function.identity()));
     }
 
     private DurationRefDTO mapEntityToDTO(final ReferentialDuration entity) {

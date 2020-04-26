@@ -1,7 +1,5 @@
 package fr.meroproduction.backendparkingcodechallenge.controller.temporary;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,13 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.meroproduction.backendparkingcodechallenge.persistence.entity.pricesheet.PriceSheet;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.referential.duration.ReferentialDuration;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.user.ParkingUser;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.vehicle.FuelType;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.vehicle.Vehicle;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.vehicle.VehicleType;
-import fr.meroproduction.backendparkingcodechallenge.persistence.repository.pricesheet.PriceSheetRepository;
 import fr.meroproduction.backendparkingcodechallenge.persistence.repository.referential.duration.ReferentialDurationRepository;
 import fr.meroproduction.backendparkingcodechallenge.service.user.UserService;
 import fr.meroproduction.backendparkingcodechallenge.service.vehicle.VehicleService;
@@ -37,27 +33,9 @@ public class TemporaryController {
     private VehicleService vehicleService;
 
     @Autowired
-    private PriceSheetRepository priceSheetRepository;
-
-    @Autowired
     private ReferentialDurationRepository referentialDurationRepository;
 
     private static final Logger LOGGER = LogManager.getLogger(TemporaryController.class);
-
-    @GetMapping(path = "/insertOnePriceSheet")
-    public void insertOnePriceSheet() {
-	PriceSheet ps = new PriceSheet();
-	ps.setPsFreeStartingMinuteTime(60L);
-	ps.setPsFirstBracketMinuteTime(240L);
-	ps.setPsFirstBracketMinuteTimeReferential(60L);
-	ps.setPsFirstBracketPrice(BigDecimal.valueOf(2d).setScale(2, RoundingMode.UP));
-	ps.setPsSecondBracketMinuteTimeReferential(30L);
-	ps.setPsSecondBracketPrice(BigDecimal.valueOf(1.5));
-	ps.setPsMotorcycleCoefficient(BigDecimal.valueOf(0.5));
-	ps.setPsLgpCoefficient(BigDecimal.valueOf(1.07));
-	ps.setPsPrintIfNull(false);
-	priceSheetRepository.save(ps);
-    }
 
     @GetMapping(path = "/insertDurationReferential")
     public void insertDurationReferential() {

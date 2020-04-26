@@ -4,28 +4,36 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.AbstractJpaEntity;
+import fr.meroproduction.backendparkingcodechallenge.persistence.entity.referential.duration.ReferentialDuration;
 
 @Entity
 @Table(name = "price_sheet")
 public class PriceSheet extends AbstractJpaEntity {
 
-    @Column(name = "ps_free_starting_minute_time", nullable = false, precision = 5, scale = 0)
-    private Long psFreeStartingMinuteTime;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ps_free_time_id", nullable = false)
+    private ReferentialDuration psFreeTime;
 
-    @Column(name = "ps_first_bracket_minute_time", nullable = false, precision = 5, scale = 0)
-    private Long psFirstBracketMinuteTime;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ps_first_bracket_time_id", nullable = false)
+    private ReferentialDuration psFirstBracketTime;
 
-    @Column(name = "ps_first_bracket_minute_time_referential", nullable = false, precision = 5, scale = 0)
-    private Long psFirstBracketMinuteTimeReferential;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ps_first_bracket_time_ref_id", nullable = false)
+    private ReferentialDuration psFirstBracketTimeRef;
 
     @Column(name = "ps_first_bracket_price", nullable = false, precision = 5, scale = 2)
     private BigDecimal psFirstBracketPrice;
 
-    @Column(name = "ps_second_bracket_minute_time_referential", nullable = false, precision = 5, scale = 0)
-    private Long psSecondBracketMinuteTimeReferential;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ps_second_bracket_time_ref_id", nullable = false)
+    private ReferentialDuration psSecondBracketTimeRef;
 
     @Column(name = "ps_second_bracket_price", nullable = false, precision = 5, scale = 2)
     private BigDecimal psSecondBracketPrice;
@@ -43,28 +51,28 @@ public class PriceSheet extends AbstractJpaEntity {
 	super();
     }
 
-    public Long getPsFreeStartingMinuteTime() {
-	return psFreeStartingMinuteTime;
+    public ReferentialDuration getPsFreeTime() {
+	return psFreeTime;
     }
 
-    public void setPsFreeStartingMinuteTime(Long psFreeStartingMinuteTime) {
-	this.psFreeStartingMinuteTime = psFreeStartingMinuteTime;
+    public void setPsFreeTime(ReferentialDuration psFreeTime) {
+	this.psFreeTime = psFreeTime;
     }
 
-    public Long getPsFirstBracketMinuteTime() {
-	return psFirstBracketMinuteTime;
+    public ReferentialDuration getPsFirstBracketTime() {
+	return psFirstBracketTime;
     }
 
-    public void setPsFirstBracketMinuteTime(Long psFirstBracketMinuteTime) {
-	this.psFirstBracketMinuteTime = psFirstBracketMinuteTime;
+    public void setPsFirstBracketTime(ReferentialDuration psFirstBracketTime) {
+	this.psFirstBracketTime = psFirstBracketTime;
     }
 
-    public Long getPsFirstBracketMinuteTimeReferential() {
-	return psFirstBracketMinuteTimeReferential;
+    public ReferentialDuration getPsFirstBracketTimeRef() {
+	return psFirstBracketTimeRef;
     }
 
-    public void setPsFirstBracketMinuteTimeReferential(Long psFirstBracketMinuteTimeReferential) {
-	this.psFirstBracketMinuteTimeReferential = psFirstBracketMinuteTimeReferential;
+    public void setPsFirstBracketTimeRef(ReferentialDuration psFirstBracketTimeRef) {
+	this.psFirstBracketTimeRef = psFirstBracketTimeRef;
     }
 
     public BigDecimal getPsFirstBracketPrice() {
@@ -75,12 +83,12 @@ public class PriceSheet extends AbstractJpaEntity {
 	this.psFirstBracketPrice = psFirstBracketPrice;
     }
 
-    public Long getPsSecondBracketMinuteTimeReferential() {
-	return psSecondBracketMinuteTimeReferential;
+    public ReferentialDuration getPsSecondBracketTimeRef() {
+	return psSecondBracketTimeRef;
     }
 
-    public void setPsSecondBracketMinuteTimeReferential(Long psSecondBracketMinuteTimeReferential) {
-	this.psSecondBracketMinuteTimeReferential = psSecondBracketMinuteTimeReferential;
+    public void setPsSecondBracketTimeRef(ReferentialDuration psSecondBracketTimeRef) {
+	this.psSecondBracketTimeRef = psSecondBracketTimeRef;
     }
 
     public BigDecimal getPsSecondBracketPrice() {

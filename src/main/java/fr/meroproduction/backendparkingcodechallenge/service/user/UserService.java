@@ -1,7 +1,5 @@
 package fr.meroproduction.backendparkingcodechallenge.service.user;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +8,6 @@ import fr.meroproduction.backendparkingcodechallenge.persistence.repository.user
 
 @Service
 public class UserService {
-
-    @Autowired
-    private EntityManager entityManager;
 
     @Autowired
     private UserRepository userRepository;

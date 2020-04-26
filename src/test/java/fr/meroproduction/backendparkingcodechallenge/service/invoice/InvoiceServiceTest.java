@@ -15,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import fr.meroproduction.backendparkingcodechallenge.persistence.entity.pricesheet.PriceSheet;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.vehicle.FuelType;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.vehicle.Vehicle;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.vehicle.VehicleType;
@@ -40,8 +39,6 @@ public class InvoiceServiceTest {
 
     @Test
     public void testDeterminePrice() {
-	PriceSheet priceSheet = getPriceSheetExample();
-
 	Vehicle vehicle = new Vehicle();
 	vehicle.setVehicleType(VehicleType.MOTORCYCLE);
 	vehicle.setFuelType(FuelType.GASOLINE);
@@ -54,8 +51,6 @@ public class InvoiceServiceTest {
 
     @Test
     public void testDeterminePrice2() {
-	PriceSheet priceSheet = getPriceSheetExample();
-
 	Vehicle vehicle = new Vehicle();
 	vehicle.setVehicleType(VehicleType.CAR);
 	vehicle.setFuelType(FuelType.GASOLINE);
@@ -68,8 +63,6 @@ public class InvoiceServiceTest {
 
     @Test
     public void testDeterminePrice3() {
-	PriceSheet priceSheet = getPriceSheetExample();
-
 	Vehicle vehicle = new Vehicle();
 	vehicle.setVehicleType(VehicleType.CAR);
 	vehicle.setFuelType(FuelType.LGP);
@@ -82,9 +75,6 @@ public class InvoiceServiceTest {
 
     @Test
     public void testMotorcycleWithLGPOnFourteenHoursAndFortyTwoMinutes() {
-	// Same price sheet as usual
-	PriceSheet priceSheet = getPriceSheetExample();
-
 	// Vehicle data
 	Vehicle vehicle = new Vehicle(VehicleType.MOTORCYCLE, FuelType.LGP);
 
@@ -101,9 +91,6 @@ public class InvoiceServiceTest {
 
     @Test
     public void testCarWithLGPOnSixHoursAndFiftyNineMinutes() {
-	// Same price sheet as usual
-	PriceSheet priceSheet = getPriceSheetExample();
-
 	// Vehicle data
 	Vehicle vehicle = new Vehicle(VehicleType.CAR, FuelType.LGP);
 
@@ -116,20 +103,6 @@ public class InvoiceServiceTest {
 	BigDecimal expected = BigDecimal.valueOf(16.5d).setScale(2, RoundingMode.UP);
 	assertNotNull(actual);
 	assertEquals(expected, actual);
-    }
-
-    private PriceSheet getPriceSheetExample() {
-	PriceSheet priceSheet = new PriceSheet();
-	priceSheet.setPsFreeStartingMinuteTime(60L);
-	priceSheet.setPsFirstBracketMinuteTime(240L);
-	priceSheet.setPsFirstBracketMinuteTimeReferential(60L);
-	priceSheet.setPsFirstBracketPrice(BigDecimal.valueOf(2d));
-	priceSheet.setPsSecondBracketMinuteTimeReferential(30L);
-	priceSheet.setPsSecondBracketPrice(BigDecimal.valueOf(1.5));
-	priceSheet.setPsMotorcycleCoefficient(BigDecimal.valueOf(0.5));
-	priceSheet.setPsLgpCoefficient(BigDecimal.valueOf(1.07));
-	priceSheet.setPsPrintIfNull(false);
-	return priceSheet;
     }
 
 }
