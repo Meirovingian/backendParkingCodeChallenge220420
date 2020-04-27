@@ -19,18 +19,12 @@ import fr.meroproduction.backendparkingcodechallenge.persistence.entity.priceshe
 public class Invoice extends AbstractJpaEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "price_sheet_id", referencedColumnName = "id")
+    @JoinColumn(name = "price_sheet_id", referencedColumnName = "id", nullable = false)
     private PriceSheet priceSheet;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "in_out_id", referencedColumnName = "id")
+    @JoinColumn(name = "in_out_id", referencedColumnName = "id", nullable = false)
     private InOut inOut;
-
-    @Column(name = "free_time")
-    private Long freeTime;
-
-    @Column(name = "first_bracket_time")
-    private Long firstBracketTime;
 
     @Column(name = "rounded_total", precision = 9, scale = 2)
     private BigDecimal roundedTotal;
@@ -53,22 +47,6 @@ public class Invoice extends AbstractJpaEntity {
 
     public void setInOut(InOut inOut) {
 	this.inOut = inOut;
-    }
-
-    public Long getFreeTime() {
-	return freeTime;
-    }
-
-    public void setFreeTime(Long freeTime) {
-	this.freeTime = freeTime;
-    }
-
-    public Long getFirstBracketTime() {
-	return firstBracketTime;
-    }
-
-    public void setFirstBracketTime(Long firstBracketTime) {
-	this.firstBracketTime = firstBracketTime;
     }
 
     public BigDecimal getRoundedTotal() {

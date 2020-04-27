@@ -10,22 +10,62 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import fr.meroproduction.backendparkingcodechallenge.persistence.entity.inout.InOut;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.invoice.Invoice;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.pricesheet.PriceSheet;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.vehicle.FuelType;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.vehicle.Vehicle;
 import fr.meroproduction.backendparkingcodechallenge.persistence.entity.vehicle.VehicleType;
 import fr.meroproduction.backendparkingcodechallenge.persistence.repository.invoice.InvoiceRepository;
+import fr.meroproduction.backendparkingcodechallenge.service.inout.InOutService;
 
 @Service
 public class InvoiceService {
+
+    @Autowired
+    private InOutService inOutService;
 
     @Autowired
     private PriceSheetService priceSheetService;
 
     @Autowired
     private InvoiceRepository invoiceRepository;
+
+    public BigDecimal pay(final Date outgoingDate, final String carRegistration) {
+	Assert.notNull(outgoingDate, "An outgoing date must be precised in order to establish charged time");
+	Assert.notNull(carRegistration, "A car registration must be communicated to identify the client");
+
+	// I'm searching first for the concerned invoice
+	Invoice invoiceInDatabase = getExistingInvoiceByCarRegistration(carRegistration);
+
+	Assert.notNull(invoiceInDatabase, "The initial invoice must be found in order to calculate the due price");
+
+	InOut inOutInDatabase = invoiceInDatabase.getInOut();
+
+	Assert.notNull(inOutInDatabase, "Linked in/out document should exists");
+
+	PriceSheet priceSheetInDatabase = invoiceInDatabase.getPriceSheet();
+
+	Assert.notNull(priceSheetInDatabase, "associated price sheet should exists");
+
+	// Duration calculation between incoming and outgoing dates
+	long duration = establishDuration(outgoingDate, inOutInDatabase.getIncomingDate());
+
+	BigDecimal determinedPrice = determinePrice(duration, priceSheetInDatabase, inOutInDatabase.getVehicle());
+
+	// Updating in/out document
+	inOutInDatabase.setOutgoingDate(outgoingDate);
+	inOutInDatabase.setActivated(false);
+	InOut savedInOut = inOutService.save(inOutInDatabase);
+
+	// Updating invoice
+	invoiceInDatabase.setInOut(savedInOut);
+	invoiceInDatabase.setRoundedTotal(determinedPrice);
+
+	return determinedPrice;
+    }
 
     public Invoice createInvoice(Invoice invoice) {
 	return invoiceRepository.save(invoice);
@@ -63,20 +103,18 @@ public class InvoiceService {
 	return now.atZone(ZoneId.of("Europe/Paris"));
     }
 
-    public BigDecimal determinePrice(final long fullTime, final Vehicle vehicle) {
-	PriceSheet lastActivatedPriceSheet = priceSheetService.getLastActivatedPriceSheet();
+    public BigDecimal determinePrice(final long fullTime, final PriceSheet priceSheet, final Vehicle vehicle) {
 	BigDecimal roundedTotal = null;
-	if (fullTime >= 0 && lastActivatedPriceSheet != null) {
-	    final long psFirstBracketMinuteTime = lastActivatedPriceSheet.getPsFirstBracketTime().getMinuteDuration();
-	    final long psFirstBracketMinuteTimeReferential = lastActivatedPriceSheet.getPsFirstBracketTimeRef()
-		    .getMinuteDuration();
-	    final BigDecimal psFirstBracketPrice = lastActivatedPriceSheet.getPsFirstBracketPrice();
+	if (fullTime >= 0 && priceSheet != null) {
+	    final long psFirstBracketMinuteTime = priceSheet.getPsFirstBracketTime().getMinuteDuration();
+	    final long psFirstBracketMinuteTimeReferential = priceSheet.getPsFirstBracketTimeRef().getMinuteDuration();
+	    final BigDecimal psFirstBracketPrice = priceSheet.getPsFirstBracketPrice();
 
-	    final long psSecondBracketMinuteTimeReferential = lastActivatedPriceSheet.getPsSecondBracketTimeRef()
+	    final long psSecondBracketMinuteTimeReferential = priceSheet.getPsSecondBracketTimeRef()
 		    .getMinuteDuration();
-	    final BigDecimal psSecondBracketPrice = lastActivatedPriceSheet.getPsSecondBracketPrice();
+	    final BigDecimal psSecondBracketPrice = priceSheet.getPsSecondBracketPrice();
 
-	    final long psFreeStartingMinuteTime = lastActivatedPriceSheet.getPsFreeTime().getMinuteDuration();
+	    final long psFreeStartingMinuteTime = priceSheet.getPsFreeTime().getMinuteDuration();
 
 	    final long realSecondBracketTime = fullTime - psFirstBracketMinuteTime;
 	    final long realFirstBracketTime = realSecondBracketTime > 0
@@ -96,11 +134,11 @@ public class InvoiceService {
 	    if (vehicle != null) {
 		final FuelType fuelType = vehicle.getFuelType();
 		if (fuelType != null && fuelType.equals(FuelType.LGP)) {
-		    calculatedTotal = calculatedTotal.multiply(lastActivatedPriceSheet.getPsLgpCoefficient());
+		    calculatedTotal = calculatedTotal.multiply(priceSheet.getPsLgpCoefficient());
 		}
 		final VehicleType vehicleType = vehicle.getVehicleType();
 		if (vehicleType != null && vehicleType.equals(VehicleType.MOTORCYCLE)) {
-		    calculatedTotal = calculatedTotal.multiply(lastActivatedPriceSheet.getPsMotorcycleCoefficient());
+		    calculatedTotal = calculatedTotal.multiply(priceSheet.getPsMotorcycleCoefficient());
 		}
 	    }
 
@@ -176,6 +214,11 @@ public class InvoiceService {
 
     public PriceSheetService getPriceSheetService() {
 	return priceSheetService;
+    }
+
+    public Invoice getExistingInvoiceByCarRegistration(final String carRegistration) {
+	Assert.notNull(carRegistration, "A car registration must be communicated to identify the client");
+	return invoiceRepository.findInvoiceByCarRegistration(carRegistration);
     }
 
 }

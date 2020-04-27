@@ -1,4 +1,4 @@
-package fr.meroproduction.backendparkingcodechallenge.controller.pricesheet;
+package fr.meroproduction.backendparkingcodechallenge.controller.search.pricesheet;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package fr.meroproduction.backendparkingcodechallenge.controller.pricesheet;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import fr.meroproduction.backendparkingcodechallenge.controller.dto.pricesheet.PriceSheetDTO;
+import fr.meroproduction.backendparkingcodechallenge.controller.dto.pricesheet.PriceSheetSelectDTO;
 import fr.meroproduction.backendparkingcodechallenge.service.pricesheet.PriceSheetService;
 
 @RestController
@@ -26,19 +28,26 @@ public class PriceSheetController {
     @Autowired
     private PriceSheetService priceSheetService;
 
+    @GetMapping("/ref")
+    public List<PriceSheetSelectDTO> getPriceSheetSelectionList() {
+	return priceSheetService.getPriceSheetSelectionList();
+    }
+
     @GetMapping("/{id}")
-    public PriceSheetDTO getSpecificTodo(@PathVariable long id) {
-	return priceSheetService.getSpecificEntity(id);
+    public PriceSheetDTO getSpecificPriceSheet(@PathVariable long id) {
+	return priceSheetService.getPriceSheetToDisplay(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Boolean> updateTodo(@PathVariable long id, @RequestBody PriceSheetDTO priceSheetToSave) {
+    public ResponseEntity<Boolean> updatePriceSheet(@PathVariable long id,
+	    @RequestBody PriceSheetDTO priceSheetToSave) {
 	long updatedEntityId = priceSheetService.save(priceSheetToSave);
 	return new ResponseEntity<>(updatedEntityId >= 0, HttpStatus.OK);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<Boolean> createTodo(@PathVariable long id, @RequestBody PriceSheetDTO priceSheetToSave) {
+    public ResponseEntity<Boolean> createPriceSheet(@PathVariable long id,
+	    @RequestBody PriceSheetDTO priceSheetToSave) {
 	long createdEntityId = priceSheetService.save(priceSheetToSave);
 	URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(createdEntityId)
 		.toUri();

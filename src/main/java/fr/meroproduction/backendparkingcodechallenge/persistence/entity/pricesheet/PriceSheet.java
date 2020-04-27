@@ -16,6 +16,9 @@ import fr.meroproduction.backendparkingcodechallenge.persistence.entity.referent
 @Table(name = "price_sheet")
 public class PriceSheet extends AbstractJpaEntity {
 
+    @Column(name = "description", nullable = false)
+    private String description;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ps_free_time_id", nullable = false)
     private ReferentialDuration psFreeTime;
@@ -49,6 +52,14 @@ public class PriceSheet extends AbstractJpaEntity {
 
     public PriceSheet() {
 	super();
+    }
+
+    public String getDescription() {
+	return description;
+    }
+
+    public void setDescription(String description) {
+	this.description = description;
     }
 
     public ReferentialDuration getPsFreeTime() {

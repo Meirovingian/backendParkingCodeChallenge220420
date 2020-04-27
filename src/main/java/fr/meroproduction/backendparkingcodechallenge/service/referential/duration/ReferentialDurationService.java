@@ -26,7 +26,6 @@ public class ReferentialDurationService {
 	List<DurationRefDTO> durationRefList = new ArrayList<>();
 	durationRefList.add(new DurationRefDTO(-1L, null, "", "", true));
 	if (!CollectionUtils.isEmpty(entityList)) {
-	    // TODO Créer un mapper
 	    durationRefList
 		    .addAll(entityList.stream().map(entity -> mapEntityToDTO(entity)).collect(Collectors.toList()));
 	    return durationRefList;

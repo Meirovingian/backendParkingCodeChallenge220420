@@ -12,14 +12,6 @@ import fr.meroproduction.backendparkingcodechallenge.persistence.entity.priceshe
 @Repository
 public interface PriceSheetRepository extends JpaRepository<PriceSheet, Long> {
 
-    @Query("FROM PriceSheet ps " //
-	    + "INNER JOIN FETCH ps.psFreeTime " //
-	    + "INNER JOIN FETCH ps.psFirstBracketTime " //
-	    + "INNER JOIN FETCH ps.psFirstBracketTimeRef " //
-	    + "INNER JOIN FETCH ps.psSecondBracketTimeRef " //
-	    + "WHERE ps.activated = true")
-    PriceSheet findLastActivatedPriceSheet();
-
     @Override
     @Query("FROM PriceSheet ps " //
 	    + "INNER JOIN FETCH ps.psFreeTime " //

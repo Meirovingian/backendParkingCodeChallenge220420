@@ -46,6 +46,10 @@ public class InOut extends AbstractJpaEntity {
 	return incomingDate;
     }
 
+    public void setIncomingDate(Date incomingDate) {
+	this.incomingDate = incomingDate;
+    }
+
     public Date getOutgoingDate() {
 	return outgoingDate;
     }

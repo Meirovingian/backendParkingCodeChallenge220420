@@ -3,9 +3,10 @@ package fr.meroproduction.backendparkingcodechallenge.controller.dto.pricesheet;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class PriceSheetDTO implements Serializable {
+import fr.meroproduction.backendparkingcodechallenge.controller.dto.AbstractDTO;
 
-    private long id;
+public class PriceSheetDTO extends AbstractDTO implements Serializable {
+
     private long freeStartingTime;
     private BigDecimal firstBracketPrice;
     private long firstBracketReferentialDuration;
@@ -22,12 +23,8 @@ public class PriceSheetDTO implements Serializable {
 	super();
     }
 
-    public long getId() {
-	return id;
-    }
-
-    public void setId(long id) {
-	this.id = id;
+    public PriceSheetDTO(long id) {
+	super(id);
     }
 
     public long getFreeStartingTime() {
