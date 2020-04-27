@@ -63,8 +63,9 @@ public class InvoiceService {
 	// Updating invoice
 	invoiceInDatabase.setInOut(savedInOut);
 	invoiceInDatabase.setRoundedTotal(determinedPrice);
+	Invoice updatedInvoice = invoiceRepository.save(invoiceInDatabase);
 
-	return determinedPrice;
+	return updatedInvoice.getRoundedTotal();
     }
 
     public Invoice createInvoice(Invoice invoice) {

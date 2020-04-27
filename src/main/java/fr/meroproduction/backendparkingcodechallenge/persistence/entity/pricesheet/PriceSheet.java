@@ -134,4 +134,13 @@ public class PriceSheet extends AbstractJpaEntity {
 	this.psPrintIfNull = psPrintIfNull;
     }
 
+    @Override
+    public String toString() {
+	return "PriceSheet [description=" + description + ", psFreeTime=" + psFreeTime + ", psFirstBracketTime="
+		+ psFirstBracketTime + ", psFirstBracketTimeRef=" + psFirstBracketTimeRef + ", psFirstBracketPrice="
+		+ psFirstBracketPrice + ", psSecondBracketTimeRef=" + psSecondBracketTimeRef + ", psSecondBracketPrice="
+		+ psSecondBracketPrice + ", psMotorcycleCoefficient=" + psMotorcycleCoefficient + ", psLgpCoefficient="
+		+ psLgpCoefficient + ", psPrintIfNull=" + psPrintIfNull + "]";
+    }
+
 }
